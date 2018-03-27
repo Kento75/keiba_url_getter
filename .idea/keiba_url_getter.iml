@@ -2,7 +2,7 @@
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="Python 3.6.4 virtualenv at C:\python_env\keiba_rul_getter" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.5 (BSoup_keiba_scraping)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TestRunnerService">

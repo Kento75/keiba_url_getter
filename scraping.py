@@ -12,8 +12,9 @@ url_1 = 'http://keiba.yahoo.co.jp/search/race/?sy=1986&sm=1&ey=2018&em=2&gr=&b=&
 url_2 = '&sidx=race_date&dir=1'
 
 # ↓レース結果ページが増えるとラストページが増えるので手動で変更する必要あり
-last_page = 4000
+last_page = 2
 
+# CSVを生成（上書き処理）
 with open('./csv/url_list.csv', 'w', newline='') as f:
     for p in range(1, last_page):
         horse_url_list = []
@@ -31,8 +32,16 @@ with open('./csv/url_list.csv', 'w', newline='') as f:
                 horse_url = start_url + tr.find("a")["href"]
                 print(horse_url)
                 f.write(horse_url + "\n")
-        except urllib.error.HTTPError:
+        except urllib.error.URLError as e:
+            # 404エラーの場合は処理終了
+            print('URLエラー発生:[' + target_url + ']のリクエストで発生')
+            print('処理を終了します。')
             break
+        except urllib.error.HTTPError as e:
+            # HTTPエラー発生時は続行
+            print('HTTPエラー発生:[' + target_url + ']のリクエストで発生')
+            continue
 
-
-print("SUCCESS")
+print("**********************************")
+print("*********   処理終了   ***********")
+print("**********************************")
