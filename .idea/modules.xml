@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://C:/Users/user/PycharmProjects/keibaURL_getter/.idea/keibaURL_getter.iml" filepath="C:/Users/user/PycharmProjects/keibaURL_getter/.idea/keibaURL_getter.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/keiba_url_getter.iml" filepath="$PROJECT_DIR$/.idea/keiba_url_getter.iml" />
     </modules>
   </component>
