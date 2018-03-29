@@ -1,4 +1,6 @@
 import time
+import re
+import copy
 import urllib.request
 from bs4 import BeautifulSoup
 
@@ -29,9 +31,19 @@ with open('./csv/url_list.csv', 'w', newline='') as f:
             table = soup.find("table", {"class": "dataLs mgnBS"})
             trs = table.find_all("tr")[1: -1]
             for tr in trs:
-                horse_url = start_url + tr.find("a")["href"]
-                print(horse_url)
-                f.write(horse_url + "\n")
+                race_date = tr.find(text=re.compile('[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}'))
+                race_result_url = start_url + tr.find("a")["href"]
+                race_id = re.sub(r'[^0-9]', '', race_result_url)
+                print(race_result_url)
+                str_list = []
+                str_list.append(str(p))
+                str_list.append(race_id)
+                str_list.append(target_url)
+                str_list.append(race_result_url)
+                str_list.append(race_date)
+                str_list.append('\n')
+                row = ','.join(str_list)
+                f.write(row)
         except urllib.error.URLError as e:
             # 404エラーの場合は処理終了
             print('URLエラー発生:[' + target_url + ']のリクエストで発生')
