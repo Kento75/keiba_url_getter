@@ -1,6 +1,8 @@
 import time
 import re
-import copy
+import csv
+import sqlite3
+from contextlib import closing
 import urllib.request
 from bs4 import BeautifulSoup
 
@@ -10,7 +12,7 @@ start_url = 'https://keiba.yahoo.co.jp'
 # todo SQLite3のテーブル情報から最大の日付を取得して
 # 　　　現在日時までの日付とを利用してURLを生成する。
 
-url_1 = 'http://keiba.yahoo.co.jp/search/race/?sy=1986&sm=1&ey=2018&em=2&gr=&b=&x=&z=&mnd=&mxd=&hid=&p='
+url_1 = 'http://keiba.yahoo.co.jp/search/race/?sy=1986&sm=1&ey=2018&em=12&gr=&b=&x=&z=&mnd=&mxd=&hid=&p='
 url_2 = '&sidx=race_date&dir=1'
 
 # ↓レース結果ページが増えるとラストページが増えるので手動で変更する必要あり
@@ -41,9 +43,8 @@ with open('./csv/url_list.csv', 'w', newline='') as f:
                 str_list.append(target_url)
                 str_list.append(race_result_url)
                 str_list.append(race_date)
-                str_list.append('\n')
                 row = ','.join(str_list)
-                f.write(row)
+                f.write(row + '\n')
         except urllib.error.URLError as e:
             # 404エラーの場合は処理終了
             print('URLエラー発生:[' + target_url + ']のリクエストで発生')
@@ -53,6 +54,22 @@ with open('./csv/url_list.csv', 'w', newline='') as f:
             # HTTPエラー発生時は続行
             print('HTTPエラー発生:[' + target_url + ']のリクエストで発生')
             continue
+
+
+dbname = './db/keiba_url.db'
+
+with closing(sqlite3.connect(dbname)) as conn:
+    c = conn.cursor()
+
+    with open('./csv/url_list.csv', 'r') as f:
+        b = csv.reader(f)
+        for t in b:
+            print(t)
+            # tableに各行のデータを挿入する。
+            c.execute('INSERT INTO keiba_result_urls VALUES (?,?,?,?,?);', t)
+
+    conn.commit()
+
 
 print("**********************************")
 print("*********   処理終了   ***********")
