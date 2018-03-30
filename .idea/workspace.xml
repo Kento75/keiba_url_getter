@@ -17,8 +17,8 @@
       <file leaf-file-name="scraping_all.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scraping_all.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="59" column="12" selection-start-line="59" selection-start-column="12" selection-end-line="59" selection-end-column="12" />
+            <state relative-caret-position="1088">
+              <caret line="64" selection-start-line="64" selection-end-line="64" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -243,7 +243,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14508928" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -252,7 +251,7 @@
       <window_info anchor="bottom" id="Python Console" order="7" weight="0.32972136" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32817337" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32817337" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -435,8 +434,8 @@
     <entry file="file://$PROJECT_DIR$/csv/url_list.csv" />
     <entry file="file://$PROJECT_DIR$/scraping_all.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="59" column="12" selection-start-line="59" selection-start-column="12" selection-end-line="59" selection-end-column="12" />
+        <state relative-caret-position="1088">
+          <caret line="64" selection-start-line="64" selection-end-line="64" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
