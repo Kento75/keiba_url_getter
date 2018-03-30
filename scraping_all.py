@@ -15,7 +15,7 @@ start_url = 'https://keiba.yahoo.co.jp'
 
 now_year = str(datetime.date.today().year)
 now_month = str(datetime.date.today().month)
-now_date = str(datetime.date.today())
+now_date = str(datetime.date.today().strftime('%Y/%-m/%-d'))
 
 # 検索用URLの生成
 url_1 = 'http://keiba.yahoo.co.jp/search/race/?sy=1986&sm=1&ey=' + now_year + '&em=' \
@@ -25,6 +25,7 @@ url_2 = '&sidx=race_date&dir=1'
 
 print('デバッグ')
 print(url_1)
+print(now_date)
 print('デバッグ')
 
 # ↓レース結果ページが増えるとラストページが増える
@@ -46,7 +47,7 @@ with open('./csv/url_list.csv', 'w', newline='') as f:
             trs = table.find_all("tr")[1: -1]
             for tr in trs:
                 race_date = tr.find(text=re.compile('[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}'))
-                if race_date is now_date:
+                if race_date == now_date:
                     break
 
                 race_result_url = start_url + tr.find("a")["href"]
