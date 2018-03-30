@@ -1,4 +1,5 @@
 import time
+import datetime
 import re
 import csv
 import sqlite3
@@ -12,11 +13,21 @@ start_url = 'https://keiba.yahoo.co.jp'
 # todo SQLite3のテーブル情報から最大の日付を取得して
 # 　　　現在日時までの日付とを利用してURLを生成する。
 
-url_1 = 'http://keiba.yahoo.co.jp/search/race/?sy=1986&sm=1&ey=2018&em=12&gr=&b=&x=&z=&mnd=&mxd=&hid=&p='
+now_year = str(datetime.date.today().year)
+now_month = str(datetime.date.today().month)
+
+# 検索用URLの生成
+url_1 = 'http://keiba.yahoo.co.jp/search/race/?sy=1986&sm=1&ey=' + now_year + '&em=' \
+        + now_month + '&gr=&b=&x=&z=&mnd=&mxd=&hid=&p='
+# url_1 = 'http://keiba.yahoo.co.jp/search/race/?sy=1986&sm=1&ey=2018&em=12&gr=&b=&x=&z=&mnd=&mxd=&hid=&p='
 url_2 = '&sidx=race_date&dir=1'
 
-# ↓レース結果ページが増えるとラストページが増えるので手動で変更する必要あり
-last_page = 2
+print('デバッグ')
+print(url_1)
+print('デバッグ')
+
+# ↓レース結果ページが増えるとラストページが増える
+last_page = 10000
 
 # CSVを生成（上書き処理）
 with open('./csv/url_list.csv', 'w', newline='') as f:
