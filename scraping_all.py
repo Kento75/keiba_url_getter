@@ -15,6 +15,7 @@ start_url = 'https://keiba.yahoo.co.jp'
 
 now_year = str(datetime.date.today().year)
 now_month = str(datetime.date.today().month)
+now_date = str(datetime.date.today())
 
 # 検索用URLの生成
 url_1 = 'http://keiba.yahoo.co.jp/search/race/?sy=1986&sm=1&ey=' + now_year + '&em=' \
@@ -45,6 +46,9 @@ with open('./csv/url_list.csv', 'w', newline='') as f:
             trs = table.find_all("tr")[1: -1]
             for tr in trs:
                 race_date = tr.find(text=re.compile('[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}'))
+                if race_date is now_date:
+                    break
+
                 race_result_url = start_url + tr.find("a")["href"]
                 race_id = re.sub(r'[^0-9]', '', race_result_url)
                 print(race_result_url)
@@ -56,6 +60,9 @@ with open('./csv/url_list.csv', 'w', newline='') as f:
                 str_list.append(race_date)
                 row = ','.join(str_list)
                 f.write(row + '\n')
+            else:
+                continue
+            break
         except urllib.error.URLError as e:
             # 404エラーの場合は処理終了
             print('URLエラー発生:[' + target_url + ']のリクエストで発生')
