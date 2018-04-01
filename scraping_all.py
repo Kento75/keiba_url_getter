@@ -15,7 +15,7 @@ start_url = 'https://keiba.yahoo.co.jp'
 
 now_year = str(datetime.date.today().year)
 now_month = str(datetime.date.today().month)
-now_date = str(datetime.date.today().strftime('%Y/%-m/%-d'))
+now_date = datetime.datetime.today().date()
 
 # 検索用URLの生成
 url_1 = 'http://keiba.yahoo.co.jp/search/race/?sy=1986&sm=1&ey=' + now_year + '&em=' \
@@ -38,16 +38,18 @@ with open('./csv/url_list.csv', 'w', newline='') as f:
         time.sleep(5)  # スクレイピング間隔の設定なので、5秒はあまり短くしないこと
         target_url = url_1 + str(p) + url_2
         try:
-            html_fp = urllib.request.urlopen(target_url)
+            req = urllib.request.Request(target_url, headers={'User-Agent': 'Mozilla/5.0'})
+            html_fp = urllib.request.urlopen(req)
             html = html_fp.read()
             soup = BeautifulSoup(html, "html.parser")
 
             # tag_select
             table = soup.find("table", {"class": "dataLs mgnBS"})
-            trs = table.find_all("tr")[1: -1]
+            trs = table.findAll("tr")[1: -1]
             for tr in trs:
                 race_date = tr.find(text=re.compile('[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}'))
-                if race_date == now_date:
+                print(datetime.datetime.strptime(race_date, '%Y/%m/%d').date())
+                if datetime.datetime.strptime(race_date, '%Y/%m/%d').date() >= now_date:
                     break
 
                 race_result_url = start_url + tr.find("a")["href"]
