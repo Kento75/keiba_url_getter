@@ -42,7 +42,7 @@ last_page = 10000
 with open('./csv/url_list.csv', 'w', newline='') as f:
     for p in range(1, last_page):
         horse_url_list = []
-        time.sleep(5)  # スクレイピング間隔の設定なので、5秒はあまり短くしないこと
+        time.sleep(5)  # スクレイピング間隔の設定なのであまり短くしないこと
         target_url = url_1 + str(p) + url_2
         try:
             req = urllib.request.Request(target_url, headers={'User-Agent': 'Mozilla/5.0'})
@@ -100,5 +100,5 @@ with closing(sqlite3.connect(dbname)) as conn:
 
 
 print("**********************************")
-print("*********   処理終了   ***********")
+print("*********   処理終了    ***********")
 print("**********************************")
