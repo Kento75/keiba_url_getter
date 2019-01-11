@@ -7,10 +7,10 @@
 
 ```sh
 # 差分取得の場合
-$ python manage.py scraping.py
+$ python scraping.py
 
 # 全件取得の場合
-$ python manage.py scraping_all.py
+$ python scraping_all.py
 ```
 =======
 ### 完了済み
