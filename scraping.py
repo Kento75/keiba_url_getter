@@ -31,8 +31,8 @@ now_year = datetime.date.today().year
 now_month = datetime.date.today().month
 
 # 検索用URLの生成
-url_1 = 'http://keiba.yahoo.co.jp/search/race/?sy=' + latest_year + '&sm=' + latest_month\
-        + '&ey=' + now_year + '&em=' + now_month + '&gr=&b=&x=&z=&mnd=&mxd=&hid=&p='
+url_1 = 'http://keiba.yahoo.co.jp/search/race/?sy=' + str(latest_year) + '&sm=' + str(latest_month)\
+        + '&ey=' + str(now_year) + '&em=' + str(now_month) + '&gr=&b=&x=&z=&mnd=&mxd=&hid=&p='
 url_2 = '&sidx=race_date&dir=1'
 
 # ↓レース結果ページが増えるとラストページが増えるので手動で変更する必要あり
@@ -54,11 +54,18 @@ with open('./csv/url_list.csv', 'w', newline='') as f:
             table = soup.find("table", {"class": "dataLs mgnBS"})
             trs = table.findAll("tr")[1: -1]
             for tr in trs:
-                race_date = tr.find(text=re.compile('[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}'))
-                print(datetime.datetime.strptime(race_date, '%Y/%m/%d').date())
-                if latest_race_date >= now_date:
+                str_race_date = tr.find(text=re.compile('[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}'))
+                race_date = datetime.datetime.strptime(str_race_date, '%Y/%m/%d').date()
+
+                # レース開催日 == レースデータ取得日の場合終了
+                if race_date == now_date:
                     break
 
+                # レース開催日 >= DB取得のレース開催日（最新）の場合スキップ
+                if latest_race_date >= race_date:
+                    continue
+
+                print(race_date)
                 race_result_url = start_url + tr.find("a")["href"]
                 race_id = re.sub(r'[^0-9]', '', race_result_url)
                 print(race_result_url)
@@ -67,7 +74,7 @@ with open('./csv/url_list.csv', 'w', newline='') as f:
                 str_list.append(race_id)
                 str_list.append(target_url)
                 str_list.append(race_result_url)
-                str_list.append(race_date)
+                str_list.append(str_race_date)
                 row = ','.join(str_list)
                 f.write(row + '\n')
             else:
@@ -82,6 +89,9 @@ with open('./csv/url_list.csv', 'w', newline='') as f:
             # HTTPエラー発生時は続行
             print('HTTPエラー発生:[' + target_url + ']のリクエストで発生')
             continue
+        except TypeError as e:
+            print('データが更新されていないページに到達しました。')
+            break
 
 
 dbname = './db/keiba_url.db'
